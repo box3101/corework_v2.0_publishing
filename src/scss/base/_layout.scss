@@ -1,0 +1,128 @@
+/* ==========================================================================
+   SideBar
+   ========================================================================== */
+body,html {
+  overflow-Y: hidden;
+}
+
+.admin-body-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  padding: px-to-rem(20px);
+}
+
+.admin-sidebar {
+  display: flex; gap: px-to-rem(30px);
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  .admin-sidebar-left-menu {
+    width: px-to-rem(80px);
+    background: #006678;
+    display: flex;
+    flex-direction: column;
+
+    .admin-sidebar-top {
+      flex-grow: 1; /* 남는 공간을 차지하도록 설정 */
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start; /* 위쪽 정렬 */
+      padding: px-to-rem(20px);
+
+      .square-button {
+        width: px-to-rem(40px);
+        height: px-to-rem(40px);
+        background-color: #ffffff;
+        margin-bottom: px-to-rem(20px);
+      }
+
+      .nav-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: px-to-rem(10px);
+
+        .nav-button {
+          width: px-to-rem(40px);
+          height: px-to-rem(40px);
+          border-radius: 50%;
+          border: none;
+          background-color: #2b2b3b;
+        }
+      }
+    }
+
+    .admin-sidebar-bottom {
+      padding: px-to-rem(20px);
+
+      .profile-icon {
+        width: px-to-rem(40px);
+        height: px-to-rem(40px);
+        border-radius: 50%;
+        background-color: #2b2b3b;
+      }
+    }
+  }
+
+  .admin-sidebar-content {
+    width: px-to-rem(250px); // 고정 너비 설정
+    background: #fff;
+    flex-shrink: 0; // 크기 고정
+    display: flex;
+    flex-direction: column;
+
+    .main-nav {
+      padding-top: px-to-rem(45px);
+
+      .first {
+        display: block;
+        margin-bottom: px-to-rem(40px);
+        pointer-events: none;
+      }
+
+      ul.submenu {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+
+        > li {
+          > a {
+            display: flex;
+            align-items: center;
+            padding: 0 px-to-rem(24px);
+            height: px-to-rem(48px);
+            color: #13130c;
+            transition: background-color 0.3s, color 0.3s;
+
+            &:hover {
+              background-color: #2b2b3b;
+              color: #fff;
+            }
+          }
+
+          .sub-submenu {
+            padding-left: px-to-rem(15px);
+
+            li a {
+              display: flex;
+              align-items: center;
+              height: px-to-rem(40px);
+              padding-left: px-to-rem(24px);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* ==========================================================================
+     Content
+     ========================================================================== */
+.admin-content-wrapper {
+  flex: 1;
+  padding: px-to-rem(60px);
+  padding-top: px-to-rem(10px);
+  overflow-y: auto;
+}

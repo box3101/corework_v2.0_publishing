@@ -1,0 +1,60 @@
+@charset "utf-8";
+
+// abstracts
+@import "./abstracts/variables.scss";
+@import "./abstracts/function.scss";
+
+// base classes
+@import "./base/reset.scss";
+@import "./base/typography.scss";
+@import "./base/layout.scss";
+
+// components
+@import "./components/layout.scss";
+@import "./components/button.scss";
+@import "./components/modal.scss";
+@import "./components/breadcrumb.scss";
+
+// layouts
+
+// page content
+
+// vendors
+
+
+
+.antd {
+  &.inner {
+    position: relative;
+    width: 1400px;
+    margin: 0 auto;
+    padding: 20px 50px;
+    font-size: 30px;
+  }
+  .rows {
+    padding-bottom: 50px;
+  }
+  h2 {
+    font-size: 30px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid darkred;
+    margin-bottom: 10px;
+    color: darkred;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  h3 {
+    margin-top: 10px;
+    font-size: 20px;
+  }
+  .info {
+    margin-top: 10px;
+    display: flex;
+    gap: 5px;
+    .title {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 12px;
+    }
+  }
+}
