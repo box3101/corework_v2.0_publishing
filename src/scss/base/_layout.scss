@@ -74,7 +74,6 @@ body,html {
 
     .main-nav {
       padding-top: px-to-rem(45px);
-
       .first {
         display: block;
         margin-bottom: px-to-rem(40px);
@@ -94,6 +93,7 @@ body,html {
             height: px-to-rem(48px);
             color: #13130c;
             transition: background-color 0.3s, color 0.3s;
+            
 
             &:hover {
               background-color: #2b2b3b;

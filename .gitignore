@@ -25,3 +25,4 @@ yarn-error.log*
 # code
 .history
 .vscode
+*storybook.log
