@@ -1,8 +1,9 @@
 /* ==========================================================================
    SideBar
    ========================================================================== */
-body,html {
-  overflow-Y: hidden;
+body,
+html {
+  overflow-y: hidden;
 }
 
 .admin-body-container {
@@ -10,10 +11,13 @@ body,html {
   height: 100vh;
   overflow: hidden;
   padding: px-to-rem(20px);
+  padding-top: 0;
+  background: var(--Colors-Brand-Primary-ColorBgLayout, #fff8f0);
 }
 
 .admin-sidebar {
-  display: flex; gap: px-to-rem(30px);
+  padding-top: px-to-rem(20px);
+  display: flex;
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
@@ -93,7 +97,6 @@ body,html {
             height: px-to-rem(48px);
             color: #13130c;
             transition: background-color 0.3s, color 0.3s;
-            
 
             &:hover {
               background-color: #2b2b3b;
@@ -123,6 +126,17 @@ body,html {
 .admin-content-wrapper {
   flex: 1;
   padding: px-to-rem(60px);
-  padding-top: px-to-rem(10px);
+  padding-top: px-to-rem(30px);
   overflow-y: auto;
+  position: relative;
+  // @include make-after {
+  //   width: 1774.406px;
+  //   height: 1578.154px;
+  //   transform: rotate(-160deg);
+  //   position: absolute;
+  //   left: -612.005px;
+  //   top: -915.002px;
+  //   @include bg-url("img", "bg-dashboard-top.png", "cover");
+  //   background-color: #fff;
+  // }
 }

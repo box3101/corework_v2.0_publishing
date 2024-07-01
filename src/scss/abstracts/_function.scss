@@ -47,3 +47,11 @@
 @mixin z-index($name) {
   z-index: map-get($z-index, $name);
 }
+
+// bg-utl
+@mixin bg-url($folder, $filename, $size: null) {
+  background-image: url('../../../public/assets/images/#{$folder}/#{$filename}');
+  @if $size {
+    background-size: $size;
+  }
+}

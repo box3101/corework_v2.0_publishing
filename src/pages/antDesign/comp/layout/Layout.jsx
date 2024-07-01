@@ -4,7 +4,7 @@ import { Layout } from 'antd';
 import Sidebar from './Sidebar';
 import Breadcrumb from './Breadcrumb';
 
-const AdminLayout = ({ breadcrumbItems, children }) => {
+const AdminLayout = ({ breadcrumbItems, children , pageClass  }) => {
   function adjustSidebarHeight() {
     const $mainNav = document.querySelector('.main-nav');
     const $leftMenu = document.querySelector('.admin-sidebar-left-menu');
@@ -18,11 +18,12 @@ const AdminLayout = ({ breadcrumbItems, children }) => {
   window.addEventListener('load', adjustSidebarHeight);
 
   // 창 크기가 변경될 때마다 실행
-  window.addEventListener('resize', adjustSidebarHeight);
+  window.addEventListener('resize', adjustSidebarHeight); 
 
   return (
-    <Layout className='admin-layout'>
+    <Layout className={`admin-layout ${pageClass}`}>
       {/* Header */}
+
       {/* <Header className='admin-header' /> */}
       {/* Header EEE */}
 
