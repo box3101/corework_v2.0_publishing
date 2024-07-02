@@ -47,6 +47,17 @@
         color: $primary-color;
       }
     }
+    .teamlist {
+        margin-top: px-to-rem(24px);
+    }
+    .team-item {
+      padding: 10px;
+      margin-bottom: 8px;
+      background-color: #f0f0f0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      cursor: move;
+    }
   }
   .team-input-wrap {
     margin-top: px-to-rem(24px);

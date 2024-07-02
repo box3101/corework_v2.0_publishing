@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import AdminLayout from '../comp/layout/Layout';
 import { Tabs, Button, Input, message } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
@@ -98,6 +99,19 @@ const Page1 = () => {
     });
   };
 
+  // 팀아이템 Drag and Drop
+  const onDragEnd = (result) => {
+    if (!result.destination) {
+      return;
+    }
+
+    const items = Array.from(teamNames);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setTeamNames(items);
+  };
+
   return (
     <AdminLayout breadcrumbItems={breadcrumbItems} pageClass={pageName}>
       <div className="tab-panel">
@@ -155,6 +169,7 @@ const Page1 = () => {
                 )}
                 
                 <div className="task-list empty">
+                  {teamNames}
                   {teamInputs.length  === 0 && teamNames.length === 0 ? (
                     <div className="empty-state">
                     <i className="icon-empty"></i>
@@ -165,11 +180,29 @@ const Page1 = () => {
                     <div className="all-num">
                       전체 <span>{teamNames.length}</span>
                     </div>
-                    {teamNames.map((teamName, index) => (
-                      <div key={index} className="team-item">
-                        {teamName}
-                      </div>
-                    ))}
+                    <DragDropContext onDragEnd={onDragEnd}>
+                      <Droppable droppableId="teamlist">
+                        {(provided) => (
+                          <div {...provided.droppableProps} ref={provided.innerRef} className="teamlist">
+                            {teamNames.map((teamName, index) => (
+                              <Draggable key={teamName} draggableId={teamName} index={index}>
+                                {(provided) => (
+                                  <div
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
+                                    className="team-item"
+                                  >
+                                    {teamName}
+                                  </div>
+                                )}
+                              </Draggable>
+                            ))}
+                            {provided.placeholder}
+                          </div>
+                        )}
+                      </Droppable>
+                    </DragDropContext>
                     {teamInputs.map((input, index) => (
                       <div  key={index} className="team-input-wrap">
                         <div key={index} className="team-input flex aic jcb gap8">
