@@ -12,7 +12,7 @@ function App() {
           colorLink: 'blue',
           colorSuccess: 'skyblue',
           colorWarning: 'darkred',
-          colorError: 'red',
+          colorError: '#FF4D4F',
           colorBgLayout: '#EBF9FF',
         },
       }}

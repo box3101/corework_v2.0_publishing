@@ -22,6 +22,11 @@ html {
   overflow-x: hidden;
   overflow-y: auto;
 
+  
+  @include max-width(tab) {
+    width: 0;
+  }
+
   .admin-sidebar-left-menu {
     width: px-to-rem(80px);
     background: #006678;
@@ -129,14 +134,32 @@ html {
   padding-top: px-to-rem(30px);
   overflow-y: auto;
   position: relative;
-  // @include make-after {
-  //   width: 1774.406px;
-  //   height: 1578.154px;
-  //   transform: rotate(-160deg);
-  //   position: absolute;
-  //   left: -612.005px;
-  //   top: -915.002px;
-  //   @include bg-url("img", "bg-dashboard-top.png", "cover");
-  //   background-color: #fff;
-  // }
+
+  @include max-width(tab) {
+    padding-left: 0; padding-right: 0;
+  }
+}
+
+/* ==========================================================================
+   Flex
+   ========================================================================== */
+.flex {
+  display: flex;
+  &.aic {
+    align-items: center;
+  }
+  &.jcc {
+    justify-content: center;
+  }
+  &.jcb {
+    justify-content: space-between;
+  }
+}
+/* ==========================================================================
+   GAP
+   ========================================================================== */
+@for $i from 1 through 100 {
+  .gap#{$i} {
+    gap: px-to-rem($i * 1px);
+  }
 }
