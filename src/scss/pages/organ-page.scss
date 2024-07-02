@@ -48,15 +48,22 @@
       }
     }
     .teamlist {
-        margin-top: px-to-rem(24px);
+      margin-top: px-to-rem(24px);
     }
     .team-item {
-      padding: 10px;
-      margin-bottom: 8px;
-      background-color: #f0f0f0;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      cursor: move;
+      margin-bottom: px-to-rem(16px);
+      height: px-to-rem(72px);
+      padding-left: px-to-rem(24px);
+      display: flex; align-items: center;
+      border-radius: var(--Border-Radius-borderRadius, 6px);
+      background: var(--Colors-Neutral-Bg-colorBgContainer, #fff);
+      /* boxShadow */
+      box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.03),
+        0px 1px 6px -1px rgba(0, 0, 0, 0.02),
+        0px 2px 4px 0px rgba(0, 0, 0, 0.02);
+      &:last-of-type {
+        margin-bottom: px-to-rem(0px);
+      }
     }
   }
   .team-input-wrap {

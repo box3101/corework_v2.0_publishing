@@ -14,13 +14,15 @@ const Page1 = () => {
   };
   const pageName = 'organ-page';
 
-
   // 입력필드 상태관리
   const [teamInputs,setTeamInputs] = useState([]);
   // 팀명 저장
   const [teamNames,setTeamNames] = useState([]);
   // 에러메시지 상태관리
   const [inputErrors, setInputErrors] = useState([]);
+  // 순서편집 모드 상태관리
+  const [isEditMode, setIsEditMode] = useState(false);
+
 
   // 팀명 유효성 검사 함수
   const isValidTeamName = (name) => {
@@ -134,8 +136,8 @@ const Page1 = () => {
                 <Button size="large" type="primary" onClick={addTeamInput}>
                   <i className="icon-plus"></i> 팀 추가
                 </Button>
-                <Button size="large" type="default">
-                  <i className="icon-sorter"></i> 순서 편집
+                <Button size="large" type="default"  onClick={() => setIsEditMode(!isEditMode)}>
+                  <i className="icon-sorter"></i>  {isEditMode ? '편집 완료' : '순서 편집'}
                 </Button>
                 </div>
 
@@ -169,7 +171,6 @@ const Page1 = () => {
                 )}
                 
                 <div className="task-list empty">
-                  {teamNames}
                   {teamInputs.length  === 0 && teamNames.length === 0 ? (
                     <div className="empty-state">
                     <i className="icon-empty"></i>
@@ -181,11 +182,11 @@ const Page1 = () => {
                       전체 <span>{teamNames.length}</span>
                     </div>
                     <DragDropContext onDragEnd={onDragEnd}>
-                      <Droppable droppableId="teamlist">
+                      <Droppable droppableId="teamName">
                         {(provided) => (
                           <div {...provided.droppableProps} ref={provided.innerRef} className="teamlist">
                             {teamNames.map((teamName, index) => (
-                              <Draggable key={teamName} draggableId={teamName} index={index}>
+                              <Draggable key={teamName} draggableId={teamName} index={index}  isDragDisabled={!isEditMode}>
                                 {(provided) => (
                                   <div
                                     ref={provided.innerRef}
@@ -193,7 +194,13 @@ const Page1 = () => {
                                     {...provided.dragHandleProps}
                                     className="team-item"
                                   >
-                                    {teamName}
+                                    <div className="team-info flex aic gap32">
+                                      <h3 className="team-name">{teamName}</h3>
+                                      <p className="team-leader">팀 리더</p>
+                                      <p className="team-members">멤버: <span>0</span>명</p>
+                                    </div>
+                                    <div className="team-actions">
+                                    </div>
                                   </div>
                                 )}
                               </Draggable>
