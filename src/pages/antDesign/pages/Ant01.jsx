@@ -3,26 +3,25 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import AdminLayout from '@layout/Layout';
 import { Tabs, Button, Input, message } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
+import TeamItem from './comp/TeamItem';
 
 const { Search } = Input;
 
 const Ant01 = () => {
+  // 페이지 정보 설정
   const breadcrumbItems = {
     mainTitle: '조직도 관리',
     describeTitle: '팀을 일괄 또는 개별로 추가한 후 순서를 편집하여 조직도를 구성하세요.',
   };
   const pageName = 'organ-page';
 
-  // 입력필드 상태관리
-  const [teamInputs, setTeamInputs] = useState([]);
-  // 팀명 저장
-  const [teamNames, setTeamNames] = useState([]);
-  // 에러메시지 상태관리
-  const [inputErrors, setInputErrors] = useState([]);
-  // 순서편집 모드 상태관리
-  const [isEditMode, setIsEditMode] = useState(false);
+  // 상태 관리
+  const [teamInputs, setTeamInputs] = useState([]); // 팀 입력 필드 상태
+  const [teamNames, setTeamNames] = useState([]); // 추가된 팀 이름 목록
+  const [inputErrors, setInputErrors] = useState([]); // 입력 오류 메시지
+  const [isEditMode, setIsEditMode] = useState(false); // 순서 편집 모드 상태
 
-  // 팀명 유효성 검사 함수
+  // 팀 이름 유효성 검사 함수
   const isValidTeamName = (name) => {
     const regex = /^[가-힣a-zA-Z0-9\s._-]{1,50}$/;
     return regex.test(name);
@@ -32,53 +31,46 @@ const Ant01 = () => {
   const addTeam = (index) => {
     const teamName = teamInputs[index].trim();
 
-    // 팀 이름이 유효한지 검사
+    // 유효성 검사
     if (!isValidTeamName(teamName)) {
-      // 유효하지 않은 경우, 해당 인덱스의 에러 메시지를 설정
       setInputErrors((prev) => {
         const newErrors = [...prev];
         newErrors[index] = '팀명은 문자/숫자/여백/특수문자(. - _)만 사용 가능하며, 50자 이내여야 합니다.';
         return newErrors;
       });
-      return; // 함수 실행 중단
+      return;
     }
 
-    // 이미 존재하는 팀 이름인지 검사
+    // 중복 검사
     if (teamNames.includes(teamName)) {
-      // 중복된 경우, 해당 인덱스의 에러 메시지를 설정
       setInputErrors((prev) => {
         const newErrors = [...prev];
         newErrors[index] = '이미 같은 팀명이 있습니다. 확인 후 다시 입력해 주세요.';
         return newErrors;
       });
-
-      return; // 함수 실행 중단
+      return;
     }
 
-    // 새로운 팀 이름을 기존 팀 목록에 추가
+    // 팀 추가 및 상태 업데이트
     setTeamNames((prev) => [teamName, ...prev]);
-
-    // 입력 필드와 에러 메시지를 제거
     setTeamInputs((prev) => prev.filter((_, i) => i !== index));
     setInputErrors((prev) => prev.filter((_, i) => i !== index));
-
-    // 성공 메시지 표시
     message.success(`'${teamName}' 팀이 추가되었습니다.`);
   };
 
-  // 팀 추가 버튼 클릭 시 함수
+  // 팀 입력 필드 추가 함수
   const addTeamInput = () => {
     setTeamInputs([...teamInputs, '']);
     setInputErrors([...inputErrors, '']);
   };
 
-  // 팀명 입력 시 함수
+  // 입력 변경 핸들러
   const handleInputChange = (index, event) => {
     const newTeamInputs = [...teamInputs];
     newTeamInputs[index] = event.target.value;
     setTeamInputs(newTeamInputs);
 
-    // 입력 시 해당 입력 필드의 에러 메시지 초기화
+    // 오류 메시지 초기화
     setInputErrors((prev) => {
       const newErrors = [...prev];
       newErrors[index] = '';
@@ -86,7 +78,7 @@ const Ant01 = () => {
     });
   };
 
-  // 팀 삭제 버튼 클릭 시 함수
+  // 팀 입력 필드 제거 함수
   const removeTeamInput = (idx) => {
     const newTeamInputs = [...teamInputs];
     newTeamInputs.splice(idx, 1);
@@ -99,7 +91,7 @@ const Ant01 = () => {
     });
   };
 
-  // 팀아이템 Drag and Drop
+  // 드래그 앤 드롭 종료 핸들러
   const onDragEnd = (result) => {
     if (!result.destination) {
       return;
@@ -115,7 +107,6 @@ const Ant01 = () => {
   return (
     <AdminLayout breadcrumbItems={breadcrumbItems} pageClass={pageName}>
       <div className="tab-panel">
-        {/* {teamNames} */}
         <Tabs defaultActiveKey="1" onChange={() => {}} size="default" tabPosition="top" type="line">
           <Tabs.TabPane
             tab={
@@ -126,6 +117,7 @@ const Ant01 = () => {
             key="1"
           >
             <div className="task-manager">
+              {/* 헤더 섹션 */}
               <header className="task-header flex jcb aic">
                 <div className="left-actions flex aic gap8">
                   <Button size="large" type="primary">
@@ -158,8 +150,9 @@ const Ant01 = () => {
                 </div>
               </header>
 
-              {/* task content */}
+              {/* 메인 콘텐츠 */}
               <main className="task-content">
+                {/* 팀이 없을 때 표시할 내용 */}
                 {teamInputs.length === 0 && teamNames.length === 0 && (
                   <div className="task-input-container">
                     <Button size="large" type="text" className="task-btn" onClick={addTeamInput}>
@@ -170,6 +163,7 @@ const Ant01 = () => {
 
                 <div className="task-list empty">
                   {teamInputs.length === 0 && teamNames.length === 0 ? (
+                    // 팀이 없을 때 표시할 메시지
                     <div className="empty-state">
                       <i className="icon-empty"></i>
                       <p className="empty-message">아직 팀이 없습니다.</p>
@@ -179,6 +173,7 @@ const Ant01 = () => {
                       <div className="all-num">
                         전체 <span>{teamNames.length}</span>
                       </div>
+                      {/* 드래그 앤 드롭 컨텍스트 */}
                       <DragDropContext onDragEnd={onDragEnd}>
                         <Droppable droppableId="teamName">
                           {(provided) => (
@@ -195,28 +190,8 @@ const Ant01 = () => {
                                       ref={provided.innerRef}
                                       {...provided.draggableProps}
                                       {...provided.dragHandleProps}
-                                      className="team-item flex aic gap32"
                                     >
-                                      <div className="team-info flex aic gap32">
-                                        <h3 className="team-name">{teamName}</h3>
-                                        <p className="team-leader">
-                                          <span>
-                                            <i className="icon-user"></i>
-                                          </span>
-                                          팀 리더
-                                        </p>
-                                        <p className="team-members">
-                                          멤버: <span>0</span>명
-                                        </p>
-                                      </div>
-                                      <div className="team-actions">
-                                        <Button type="defalut" size="large">
-                                          <img
-                                            src={`${process.env.PUBLIC_URL}/assets/images/icon/DotsThreeVertical.svg`}
-                                            alt="Dots Icon"
-                                          />
-                                        </Button>
-                                      </div>
+                                      <TeamItem teamName={teamName} index={index} isEditMode={isEditMode} />
                                     </div>
                                   )}
                                 </Draggable>
@@ -226,6 +201,7 @@ const Ant01 = () => {
                           )}
                         </Droppable>
                       </DragDropContext>
+                      {/* 팀 입력 필드 */}
                       {teamInputs.map((input, index) => (
                         <div key={index} className="team-input-wrap">
                           <div key={index} className="team-input flex aic jcb gap8">
@@ -260,7 +236,6 @@ const Ant01 = () => {
                   )}
                 </div>
               </main>
-              {/* task content EEE */}
             </div>
           </Tabs.TabPane>
           <Tabs.TabPane
