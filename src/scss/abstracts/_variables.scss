@@ -1,16 +1,21 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 
+// 기본 루트 변수 설정
+$base-url: "~@images";
+
 // 기본 폰트 변수 설정
-$font-primary: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+$font-primary: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui,
+  Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR",
+  "Malgun Gothic", sans-serif;
 $base-font-size: 16px;
 
 // 색상 변수 설정
-$primary-color: #0388A6;
+$primary-color: #0388a6;
 $link-color: #aaa;
 $success-color: #aaa;
 $warning-color: #aaa;
-$error-color: #FF4D4F;
-$bg-color : #EBF9FF;
+$error-color: #ff4d4f;
+$bg-color: #ebf9ff;
 
 // 브레이크포인트 변수
 $breakpoint-web: 1200px;
@@ -30,5 +35,3 @@ $z-index: (
   "z-index-9": 900,
   "z-index-10": 1000,
 );
-
-

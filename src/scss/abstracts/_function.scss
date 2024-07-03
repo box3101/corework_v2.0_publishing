@@ -27,7 +27,7 @@
 // after
 @mixin make-after {
   &::after {
-    content: '';
+    content: "";
     display: inline-block;
     @content;
   }
@@ -36,21 +36,20 @@
 // befer
 @mixin make-before {
   &::before {
-    content: '';
+    content: "";
     display: inline-block;
     @content;
   }
 }
-
 
 //z-index css
 @mixin z-index($name) {
   z-index: map-get($z-index, $name);
 }
 
-// bg-utl
+// bg-url
 @mixin bg-url($folder, $filename, $size: null) {
-  background-image: url('../../../public/assets/images/#{$folder}/#{$filename}');
+  background-image: url("#{$base-url}/#{$folder}/#{$filename}");
   @if $size {
     background-size: $size;
   }
