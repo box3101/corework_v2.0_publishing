@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ConfigProvider } from 'antd';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import './scss/ui.scss';
 import RootRoutes from './routes';
 
 function App() {
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // 애니메이션 지속 시간 (밀리초)
+      once: false, // 스크롤 할 때마다 애니메이션 반복
+    });
+  }, []);
+
   return (
     <ConfigProvider
       theme={{
@@ -17,8 +26,8 @@ function App() {
         },
       }}
     >
-      <div className='wrap'>
-          <RootRoutes />
+      <div className="wrap">
+        <RootRoutes />
       </div>
     </ConfigProvider>
   );

@@ -6,10 +6,10 @@ import { CloseOutlined } from '@ant-design/icons';
 
 const { Search } = Input;
 
-const Ant01 = () => {
+const Ant03 = () => {
   const breadcrumbItems = {
-    mainTitle: '조직도 관리',
-    describeTitle: '팀을 일괄 또는 개별로 추가한 후 순서를 편집하여 조직도를 구성하세요.',
+    mainTitle: '조직도 관리 333',
+    describeTitle: '팀을 일괄 또는 개별로 추가한 후 순서를 편집하여 조직도를 구성하세요.333',
   };
   const pageName = 'organ-page';
 
@@ -195,28 +195,16 @@ const Ant01 = () => {
                                       ref={provided.innerRef}
                                       {...provided.draggableProps}
                                       {...provided.dragHandleProps}
-                                      className="team-item flex aic gap32"
+                                      className="team-item"
                                     >
                                       <div className="team-info flex aic gap32">
                                         <h3 className="team-name">{teamName}</h3>
-                                        <p className="team-leader">
-                                          <span>
-                                            <i className="icon-user"></i>
-                                          </span>
-                                          팀 리더
-                                        </p>
+                                        <p className="team-leader">팀 리더</p>
                                         <p className="team-members">
                                           멤버: <span>0</span>명
                                         </p>
                                       </div>
-                                      <div className="team-actions">
-                                        <Button type="defalut" size="large">
-                                          <img
-                                            src={`${process.env.PUBLIC_URL}/assets/images/icon/DotsThreeVertical.svg`}
-                                            alt="Dots Icon"
-                                          />
-                                        </Button>
-                                      </div>
+                                      <div className="team-actions"></div>
                                     </div>
                                   )}
                                 </Draggable>
@@ -279,4 +267,4 @@ const Ant01 = () => {
   );
 };
 
-export default Ant01;
+export default Ant03;

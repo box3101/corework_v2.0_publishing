@@ -54,7 +54,8 @@
       margin-bottom: px-to-rem(16px);
       height: px-to-rem(72px);
       padding-left: px-to-rem(24px);
-      display: flex; align-items: center;
+      display: flex;
+      align-items: center;
       border-radius: var(--Border-Radius-borderRadius, 6px);
       background: var(--Colors-Neutral-Bg-colorBgContainer, #fff);
       /* boxShadow */
@@ -63,6 +64,32 @@
         0px 2px 4px 0px rgba(0, 0, 0, 0.02);
       &:last-of-type {
         margin-bottom: px-to-rem(0px);
+      }
+      .team-info {
+        flex: 1 0 0;
+        .team-name {
+          flex: 1;
+        }
+        .team-leader {
+          width: px-to-rem(300px);
+          display: flex;
+          align-items: center;
+          gap: px-to-rem(8px);
+          span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: $primary-color;
+            border-radius: 9999px;
+          }
+        }
+        .team-members {
+          width: px-to-rem(150px);
+        }
+      }
+      .team-actions {
       }
     }
   }
