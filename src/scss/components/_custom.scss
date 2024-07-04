@@ -19,6 +19,10 @@
   .left {
     display: flex;
     align-items: center;
+    span {
+      color: #000;
+      font-size: px-to-rem(15px);
+    }
     .profile-image {
       display: inline-block;
       width: 32px; /* 원하는 크기로 설정 */
@@ -32,11 +36,11 @@
     }
     .profile-name {
       font-weight: 700;
+      position: relative;
+      top: 1px;
     }
   }
   .department {
-    position: relative;
-    top: 1px;
     font-size: px-to-rem(14px);
     color: #666;
   }
@@ -45,17 +49,36 @@
 /* ==========================================================================
    Dropdown
    ========================================================================== */
-
 .ant-dropdown {
-  width: px-to-rem(143px);
+  min-width: px-to-rem(143px);
   .ant-dropdown-menu-item {
     height: 45px;
     .ant-dropdown-menu-title-content {
       color: #000c17;
+      display: flex;
+      align-items: center;
     }
   }
 }
-
+.ant-dropdown-menu {
+  overflow-y: auto;
+  max-height: 250px;
+  &.width-lg {
+    width: px-to-rem(280px) !important;
+  }
+  &.h280 {
+    max-height: 280px;
+  }
+  &.click-none .ant-dropdown-menu-item {
+    pointer-events: none;
+  }
+  .profile-wrap {
+    span {
+      position: relative;
+      top: 2px;
+    }
+  }
+}
 /* ==========================================================================
    Tooltip
    ========================================================================== */

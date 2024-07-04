@@ -77,11 +77,14 @@
           flex: 1;
         }
         .ant-select-selector {
-          width: px-to-rem(300px);
+          width: px-to-rem(320px);
         }
         .team-leader {
-          width: px-to-rem(300px);
+          padding-left: px-to-rem(10px);
+          padding-right: px-to-rem(10px);
+          width: px-to-rem(320px);
           display: flex;
+          flex: none;
           justify-content: space-between;
           align-items: center;
           .icon {
@@ -162,5 +165,14 @@
       font-size: px-to-rem(12px);
       color: $error-color;
     }
+  }
+}
+
+.team-members-wrap {
+  position: relative;
+  .member-list {
+    position: absolute;
+    left: 10px;
+    top: 30px;
   }
 }
