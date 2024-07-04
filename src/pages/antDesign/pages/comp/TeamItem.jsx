@@ -214,7 +214,7 @@ const TeamItem = ({ teamName, index, isEditMode }) => {
         </div>
       </div>
 
-      <Drawer title="팀 일괄 추가" placement="right" onClose={onClose} visible={visible}>
+      <Drawer title={teamName} placement="right" onClose={onClose} visible={visible}>
         {/* 여기에 팝업 내용을 추가하세요 */}
       </Drawer>
     </>

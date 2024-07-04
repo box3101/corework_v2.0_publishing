@@ -203,7 +203,7 @@ const Ant01 = () => {
                                     <Tooltip
                                       title={inputErrors[index]}
                                       visible={inputErrors[index] ? true : false}
-                                      placement="top"
+                                      placement="topLeft"
                                       color="red"
                                       overlayClassName="custom-tooltip-position"
                                     >

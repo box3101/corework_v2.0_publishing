@@ -47,8 +47,16 @@
 /* ==========================================================================
    Tooltip
    ========================================================================== */
+.ant-tooltip {
+  max-width: max-content;
+  @include max-width(mo) {
+    max-width: 80%;
+    word-break: keep-all;
+  }
+}
 .ant-tooltip.ant-tooltip-red .ant-tooltip-arrow {
-  --antd-arrow-background-color: #b94938;
+  --antd-arrow-background-color: #fff2f0;
+  display: none;
 }
 .ant-tooltip.ant-tooltip-red {
   .ant-tooltip-inner {
@@ -59,13 +67,15 @@
     word-break: keep-all;
   }
 }
+/* 기본 Tooltip 위치 조정 */
 .custom-tooltip-position .ant-tooltip-inner {
-  transform: translateX(30px) translateY(-20px); /* Adjust these values to move the tooltip */
-}
-.custom-tooltip-position .ant-tooltip-arrow {
-  position: absolute !important;
-  bottom: 20px !important;
-  left: 154px !important;
+  transform: translate(52%, -20px);
+  @include max-width(tab) {
+    transform: translate(12%, -12px);
+  }
+  @include max-width(mo) {
+    transform: translate(12%, -12px);
+  }
 }
 
 /* ==========================================================================
