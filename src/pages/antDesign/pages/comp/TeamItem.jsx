@@ -10,7 +10,8 @@ const TeamItem = ({ teamName, index, isEditMode }) => {
   const [editedTeamName, setEditedTeamName] = useState(teamName);
   const [tempTeamName, setTempTeamName] = useState(teamName);
   const [searchValue, setSearchValue] = useState('');
-  const [showMembers, setShowMembers] = useState(false); // State for member list visibility
+  //
+  const [_showMembers, setShowMembers] = useState(false); // State for member list visibility
   const [visible, setVisible] = useState(false);
 
   const leaderOptions = [
