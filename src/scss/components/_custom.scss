@@ -1,14 +1,21 @@
 /* ==========================================================================
    Select
    ========================================================================== */
+.custom-select .ant-select-dropdown {
+  top: 100% !important;
+  bottom: auto !important;
+}
+
 .ant-select-single {
   height: 40px;
 }
 
 .profile-wrap {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: px-to-rem(10px);
   .left {
     display: flex;
     align-items: center;
@@ -23,8 +30,13 @@
       margin-right: 8px; /* 텍스트와 이미지 사이의 간격 */
       display: inline-block; /* 인라인 블록으로 설정하여 텍스트와 나란히 배치 */
     }
+    .profile-name {
+      font-weight: 700;
+    }
   }
   .department {
+    position: relative;
+    top: 1px;
     font-size: px-to-rem(14px);
     color: #666;
   }
@@ -42,4 +54,35 @@
       color: #000c17;
     }
   }
+}
+
+/* ==========================================================================
+   Tooltip
+   ========================================================================== */
+.ant-tooltip.ant-tooltip-red .ant-tooltip-arrow {
+  --antd-arrow-background-color: #b94938;
+}
+.ant-tooltip.ant-tooltip-red {
+  .ant-tooltip-inner {
+    background: #fff2f0;
+    color: $error-color;
+    font-size: px-to-rem(14px);
+    font-weight: 700;
+    word-break: keep-all;
+  }
+}
+.custom-tooltip-position .ant-tooltip-inner {
+  transform: translateX(30px) translateY(-20px); /* Adjust these values to move the tooltip */
+}
+.custom-tooltip-position .ant-tooltip-arrow {
+  position: absolute !important;
+  bottom: 20px !important;
+  left: 154px !important;
+}
+
+/* ==========================================================================
+   Input
+   ========================================================================== */
+.ant-input {
+  padding: 8px 11px;
 }

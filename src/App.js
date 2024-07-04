@@ -21,8 +21,11 @@ function App() {
           colorLink: 'blue',
           colorSuccess: 'skyblue',
           colorWarning: 'darkred',
+          colorWarningBg: '#FFF2F0',
           colorError: '#FF4D4F',
           colorBgLayout: '#EBF9FF',
+          // 툴팁 화살표 배경색 추가
+          tooltipArrowBg: '#0388A6', // 여기서 원하는 색상으로 변경
         },
       }}
     >

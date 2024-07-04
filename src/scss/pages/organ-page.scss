@@ -51,6 +51,7 @@
       margin-top: px-to-rem(24px);
     }
     .team-item {
+      cursor: pointer;
       margin-bottom: px-to-rem(16px);
       height: px-to-rem(72px);
       padding-left: px-to-rem(24px);
@@ -63,6 +64,9 @@
       box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.03),
         0px 1px 6px -1px rgba(0, 0, 0, 0.02),
         0px 2px 4px 0px rgba(0, 0, 0, 0.02);
+      // &:hover {
+      //   border: 1px solid $primary-color;
+      // }
       .team-info {
         flex: 1 0 0;
         .por {
@@ -77,7 +81,10 @@
         }
         .team-leader {
           width: px-to-rem(300px);
-          span {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .icon {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -92,6 +99,9 @@
             gap: px-to-rem(8px);
             cursor: pointer;
             text-justify: auto;
+            &:hover {
+              color: $primary-color;
+            }
           }
         }
         .team-members {

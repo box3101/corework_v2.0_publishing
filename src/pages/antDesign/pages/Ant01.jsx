@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import AdminLayout from '@layout/Layout';
-import { Tabs, Button, Input, message } from 'antd';
+import { Tabs, Button, Input, message, Tooltip } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import TeamItem from './comp/TeamItem';
 
@@ -132,10 +132,10 @@ const Ant01 = () => {
                 </div>
 
                 <div className="right-actions flex aic gap16">
-                  <div className="view-toggles flex aic gap5">
+                  {/* <div className="view-toggles flex aic gap5">
                     <button className="btn btn-view active">리스트 뷰</button>
                     <button className="btn btn-view">조직도 뷰</button>
-                  </div>
+                  </div> */}
                   <Search
                     placeholder="팀명"
                     allowClear
@@ -201,25 +201,37 @@ const Ant01 = () => {
                           )}
                         </Droppable>
                       </DragDropContext>
-                      {/* 팀 입력 필드 */}
+                      {/* // teamInputs 배열을 매핑하여 각 팀에 대한 입력 필드와 해당 에러 툴팁을 렌더링합니다. */}
                       {teamInputs.map((input, index) => (
                         <div key={index} className="team-input-wrap">
                           <div key={index} className="team-input flex aic jcb gap8">
                             <div className="left-item flex  aic gap8">
+                              {inputErrors[index] && (
+                                <Tooltip
+                                  title={inputErrors[index]} // 툴팁 텍스트로 에러 메시지를 표시합니다.
+                                  visible={inputErrors[index] ? true : false} // 에러 메시지가 있을 경우에만 툴팁을 표시합니다.
+                                  placement="top" // 툴팁을 입력 필드 위에 나타나게 설정합니다.
+                                  color="red" // 에러에 대한 툴팁 배경색을 빨간색으로 설정합니다.
+                                  overlayClassName="custom-tooltip-position"
+                                >
+                                  {/* // 에러를 나타내는 아이콘, 클릭 시 툴팁이 표시됩니다. */}
+                                  <i className="icon-alert-circle" style={{ color: 'red' }}></i>
+                                </Tooltip>
+                              )}
                               <Input
                                 allowClear
                                 value={input}
-                                onChange={(e) => handleInputChange(index, e)}
-                                placeholder="팀명을 입력하세요"
-                                maxLength={50}
+                                onChange={(e) => handleInputChange(index, e)} // 입력 변경을 처리하여 상태에서 팀 이름을 업데이트합니다.
+                                placeholder="팀명을 입력하세요" // 팀 이름 입력을 위한 플레이스홀더
+                                maxLength={50} // 팀 이름의 최대 길이
                                 size="large"
-                                status={inputErrors[index] ? 'error' : ''}
+                                status={inputErrors[index] ? 'error' : ''} // 에러 메시지가 있으면 입력 상태를 'error'로 설정합니다.
                               />
                               <Button
                                 type="primary"
                                 size="large"
                                 onClick={() => {
-                                  addTeam(index);
+                                  addTeam(index); // '추가' 버튼 클릭 시 팀을 추가하는 함수를 실행합니다.
                                 }}
                               >
                                 추가
@@ -228,7 +240,6 @@ const Ant01 = () => {
                             <div className="right-item">
                               <Button size="large" onClick={() => removeTeamInput(index)} icon={<CloseOutlined />} />
                             </div>
-                            {inputErrors[index] && <div className="error-message">{inputErrors[index]}</div>}
                           </div>
                         </div>
                       ))}

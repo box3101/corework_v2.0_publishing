@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Select, Dropdown, Menu } from 'antd';
+import { Button, Select, Dropdown, Menu, Input } from 'antd';
 
 const { Option } = Select;
 
@@ -11,6 +11,11 @@ const TeamItem = ({ teamName, index, isEditMode }) => {
   // selectedLeader 상태와 상태 업데이트 함수를 정의
   // 초기 값은 null로 설정되어 있으며, 이는 아직 선택된 리더가 없음을 의미
   const [selectedLeader, setSelectedLeader] = useState(null);
+
+  // 팀 이름 편집 모드 상태 정의
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [editedTeamName, setEditedTeamName] = useState(teamName);
+  const [tempTeamName, setTempTeamName] = useState(teamName);
 
   // 예시 리더 목록
   // 각 리더의 정보를 객체로 담고 있는 배열
@@ -33,6 +38,12 @@ const TeamItem = ({ teamName, index, isEditMode }) => {
     { value: 'oh', label: '오연서', department: '해외사업팀 / 리드' },
   ];
 
+  const [searchValue, setSearchValue] = useState('');
+
+  const filteredOptions = leaderOptions.filter((option) =>
+    option.label.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
   // 클릭 이벤트 핸들러를 포함한 팀 작업 메뉴 설정입니다.
   const teamMenu = (
     <Menu>
@@ -54,62 +65,118 @@ const TeamItem = ({ teamName, index, isEditMode }) => {
 
   // 리더 선택 핸들러 함수
   const handleLeaderSelect = (value) => {
+    const leader = leaderOptions.find((leader) => leader.value === value);
     // 선택된 리더의 value를 selectedLeader 상태로 설정
-    setSelectedLeader(value);
+    setSelectedLeader(leader);
     // 리더 선택 후 선택 모드를 종료하기 위해 showLeaderSelect를 false로 설정
     setShowLeaderSelect(false);
   };
 
+  // 팀 이름 클릭 핸들러 함수
+  const handleNameClick = () => {
+    setIsEditingName(true);
+  };
+
+  // 팀 이름 변경 핸들러 함수
+  const handleTempNameChange = (e) => {
+    setTempTeamName(e.target.value);
+  };
+
+  // 팀 이름 저장 핸들러 함수
+  const handleNameSave = () => {
+    setEditedTeamName(tempTeamName);
+    setIsEditingName(false);
+  };
+
+  // 팀 이름 취소 핸들러 함수
+  const handleNameCancel = () => {
+    setIsEditingName(false);
+  };
+
+  const renderOption = (leader) => (
+    <div className="profile-wrap">
+      <div className="left">
+        <span className="profile-image"></span>
+        <span>{leader.label}</span>
+      </div>
+      <span className="department">{leader.department}</span>
+    </div>
+  );
+
   return (
     <div className="team-item flex aic gap32">
       <div className="team-info flex aic gap32">
-        <h3 className="team-name">{teamName}</h3>
+        {!isEditingName ? (
+          <h3 className="team-name" onClick={handleNameClick}>
+            {editedTeamName}
+          </h3>
+        ) : (
+          <div className="flex aic gap8 w-full">
+            <Input
+              type="text"
+              maxLength={50}
+              value={tempTeamName}
+              onChange={handleTempNameChange}
+              onPressEnter={handleNameSave}
+            />
+            <Button type="primary" size="large" onClick={handleNameSave}>
+              저장
+            </Button>
+            <Button type="default" size="large" onClick={handleNameCancel}>
+              취소
+            </Button>
+          </div>
+        )}
 
         {!showLeaderSelect ? (
-          // showLeaderSelect가 false일 때 실행되는 블록
           <div className="team-leader">
-            {/* 클릭 가능한 단락으로 리더 선택 모드로 전환 */}
             <p onClick={handleLeaderClick}>
-              <span>
-                <i className="icon-user"></i>
-              </span>
-              {/* 선택된 리더의 이름을 표시하거나 기본 텍스트 '팀 리더'를 표시 */}
-              {selectedLeader ? leaderOptions.find((leader) => leader.value === selectedLeader)?.label : '팀 리더'}
+              {selectedLeader ? (
+                <div className="profile-wrap">
+                  <div className="left">
+                    <span className="profile-image"></span>
+                    <span className="profile-name">{selectedLeader.label}</span>
+                  </div>
+                  <span className="department">{selectedLeader.department}</span>
+                </div>
+              ) : (
+                <>
+                  <span className="icon">
+                    <i className="icon-user"></i>
+                  </span>
+                  팀 리더 지정
+                </>
+              )}
             </p>
           </div>
         ) : (
-          // showLeaderSelect가 true일 때 실행되는 블록
-          <div className="leader-select-container">
-            {/* Ant Design의 Select 컴포넌트를 사용하여 리더 선택 드롭다운 표시 */}
+          <div className="leader-select-container" style={{ position: 'relative' }}>
             <Select
-              showSearch // 검색 기능 활성화
-              placeholder="리더 선택" // 드롭다운의 기본 텍스트 설정
-              optionFilterProp="children" // 필터링할 옵션의 속성 설정
-              onChange={handleLeaderSelect} // 선택 변경 시 호출되는 함수
+              className="custom-select"
+              placeholder={selectedLeader ? selectedLeader.label : '리더 선택'}
+              onChange={handleLeaderSelect}
+              value={selectedLeader?.value}
+              dropdownStyle={{ minWidth: '200px', maxHeight: '300px' }}
+              dropdownRender={(menu) => (
+                <div>
+                  <Input
+                    placeholder="리더 검색"
+                    style={{ marginBottom: '5px' }}
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                  />
+                  {menu}
+                </div>
+              )}
               notFoundContent={
-                // 검색 결과가 없을 때 표시할 내용
-                leaderOptions.length === 0
-                  ? '구성원이 없습니다. 구성원을 추가해주세요.' // Content to display when there are no members
-                  : '검색 결과가 없습니다.' // Default no search results message
+                leaderOptions.length === 0 ? '구성원이 없습니다. 구성원을 추가해주세요.' : '검색 결과가 없습니다.'
               }
-              filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())} // 옵션 필터링 로직
+              filterOption={false}
+              getPopupContainer={(trigger) => trigger.parentNode}
             >
-              {/* leaderOptions 배열을 순회하여 Option 컴포넌트 생성 */}
-              {leaderOptions.map((leader) => (
+              {filteredOptions.map((leader) => (
                 <Option key={leader.value} value={leader.value} label={leader.label}>
-                  <div className="profile-wrap">
-                    <div className="left">
-                      {/* 리더의 이름 왼쪽에 프로필 이미지 추가 */}
-                      <span
-                        className="profile-image"
-                        // style={{ backgroundImage: `url(images/profiles/${leader.value}.jpg)` }} // 각 리더의 이미지 경로
-                      ></span>
-                      {/* 리더의 이름 표시 */}
-                      <span>{leader.label}</span>
-                      {/* 리더의 부서를 오른쪽에 표시 */}
-                    </div>
-                    <span className="department">{leader.department}</span>
-                  </div>
+                  {renderOption(leader)}
                 </Option>
               ))}
             </Select>
@@ -119,13 +186,12 @@ const TeamItem = ({ teamName, index, isEditMode }) => {
           멤버 <span>0명</span>
         </p>
       </div>
-      {/* // 드롭다운 메뉴를 포함한 팀 액션 구성 요소입니다. */}
       <div className="team-actions">
         <Dropdown overlay={teamMenu} trigger={['click']} placement="bottomRight">
           <Button type="default" size="large" ghost>
             <img src={`${process.env.PUBLIC_URL}/assets/images/icon/DotsThreeVertical.svg`} alt="Dots Icon" />
           </Button>
-        </Dropdown>{' '}
+        </Dropdown>
       </div>
     </div>
   );
