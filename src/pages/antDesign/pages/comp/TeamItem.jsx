@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Select, Dropdown, Menu, Input } from 'antd';
+import { Button, Select, Dropdown, Menu, Input, Drawer } from 'antd';
 
 const { Option } = Select;
 
@@ -11,6 +11,7 @@ const TeamItem = ({ teamName, index, isEditMode }) => {
   const [tempTeamName, setTempTeamName] = useState(teamName);
   const [searchValue, setSearchValue] = useState('');
   const [showMembers, setShowMembers] = useState(false); // State for member list visibility
+  const [visible, setVisible] = useState(false);
 
   const leaderOptions = [
     { value: 'kang', label: '강민식', department: '전략기획팀 / DX리드' },
@@ -44,17 +45,6 @@ const TeamItem = ({ teamName, index, isEditMode }) => {
     option.label.toLowerCase().includes(searchValue.toLowerCase())
   );
 
-  const teamMenu = (
-    <Menu>
-      <Menu.Item key="1" onClick={() => console.log('1')}>
-        팀 정보 설정
-      </Menu.Item>
-      <Menu.Item key="2" onClick={() => console.log('2')}>
-        팀 종료 전환
-      </Menu.Item>
-    </Menu>
-  );
-
   const handleLeaderClick = () => {
     setShowLeaderSelect((prev) => !prev);
   };
@@ -86,6 +76,10 @@ const TeamItem = ({ teamName, index, isEditMode }) => {
     setShowMembers((prev) => !prev); // Toggle member list visibility
   };
 
+  const handleInnerClick = (event) => {
+    event.stopPropagation(); // 이벤트 버블링을 막습니다.
+  };
+
   const renderOption = (leader) => (
     <div className="profile-wrap">
       <div className="left">
@@ -94,6 +88,25 @@ const TeamItem = ({ teamName, index, isEditMode }) => {
       </div>
       <span className="department">{leader.department}</span>
     </div>
+  );
+
+  const showDrawer = () => {
+    setVisible(true);
+  };
+
+  const onClose = () => {
+    setVisible(false);
+  };
+
+  const teamMenu = (
+    <Menu>
+      <Menu.Item key="1" onClick={showDrawer}>
+        팀 정보 설정
+      </Menu.Item>
+      <Menu.Item key="2" onClick={() => console.log('2')}>
+        팀 종료 전환
+      </Menu.Item>
+    </Menu>
   );
 
   const memberMenu = (
@@ -105,98 +118,106 @@ const TeamItem = ({ teamName, index, isEditMode }) => {
   );
 
   return (
-    <div className="team-item flex aic gap32">
-      <div className="team-info flex aic gap32">
-        {!isEditingName ? (
-          <h3 className="team-name" onClick={handleNameClick}>
-            {editedTeamName}
-          </h3>
-        ) : (
-          <div className="flex aic gap8 w-full">
-            <Input
-              type="text"
-              maxLength={50}
-              value={tempTeamName}
-              onChange={handleTempNameChange}
-              onPressEnter={handleNameSave}
-            />
-            <Button type="primary" size="large" onClick={handleNameSave}>
-              저장
-            </Button>
-            <Button type="default" size="large" onClick={handleNameCancel}>
-              취소
-            </Button>
-          </div>
-        )}
+    <>
+      <div className="team-item flex aic gap32">
+        <div className="team-info flex aic gap32" onClick={handleInnerClick}>
+          {!isEditingName ? (
+            <h3 className="team-name" onClick={handleNameClick}>
+              {editedTeamName}
+            </h3>
+          ) : (
+            <div className="flex aic gap8 w-full">
+              <Input
+                type="text"
+                maxLength={50}
+                value={tempTeamName}
+                onChange={handleTempNameChange}
+                onPressEnter={handleNameSave}
+              />
+              <Button type="primary" size="large" onClick={handleNameSave}>
+                저장
+              </Button>
+              <Button type="default" size="large" onClick={handleNameCancel}>
+                취소
+              </Button>
+            </div>
+          )}
 
-        {!showLeaderSelect ? (
-          <div className="team-leader">
-            <p onClick={handleLeaderClick}>
-              {selectedLeader ? (
-                <div className="profile-wrap">
-                  <div className="left">
-                    <span className="profile-image"></span>
-                    <span className="profile-name">{selectedLeader.label}</span>
+          {!showLeaderSelect ? (
+            <div className="team-leader">
+              <div onClick={handleLeaderClick}>
+                {selectedLeader ? (
+                  <div className="profile-wrap">
+                    <div className="left">
+                      <span className="profile-image"></span>
+                      <span className="profile-name">{selectedLeader.label}</span>
+                    </div>
+                    <span className="department">{selectedLeader.department}</span>
                   </div>
-                  <span className="department">{selectedLeader.department}</span>
-                </div>
-              ) : (
-                <>
-                  <span className="icon">
-                    <i className="icon-user"></i>
-                  </span>
-                  팀 리더 지정
-                </>
-              )}
+                ) : (
+                  <>
+                    <div className="team-leader-assignment">
+                      <span className="icon">
+                        <i className="icon-user"></i>
+                      </span>
+                      팀 리더 지정
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="leader-select-container" style={{ position: 'relative' }}>
+              <Select
+                className="custom-select"
+                placeholder={selectedLeader ? selectedLeader.label : '리더 선택'}
+                onChange={handleLeaderSelect}
+                value={selectedLeader?.value}
+                dropdownStyle={{ minWidth: '200px', maxHeight: '300px' }}
+                dropdownRender={(menu) => (
+                  <div>
+                    <Input
+                      placeholder="리더 검색"
+                      style={{ marginBottom: '5px' }}
+                      value={searchValue}
+                      onChange={(e) => setSearchValue(e.target.value)}
+                    />
+                    {menu}
+                  </div>
+                )}
+                notFoundContent={
+                  leaderOptions.length === 0 ? '구성원이 없습니다. 구성원을 추가해주세요.' : '검색 결과가 없습니다.'
+                }
+                filterOption={false}
+                getPopupContainer={(trigger) => trigger.parentNode}
+              >
+                {filteredOptions.map((leader) => (
+                  <Option key={leader.value} value={leader.value} label={leader.label}>
+                    {renderOption(leader)}
+                  </Option>
+                ))}
+              </Select>
+            </div>
+          )}
+          <Dropdown overlay={memberMenu} placement="bottomLeft" trigger={['click']}>
+            <p className="team-members" onClick={handleMembersClick}>
+              멤버 <span>{teamMembers.length}명</span>
             </p>
-          </div>
-        ) : (
-          <div className="leader-select-container" style={{ position: 'relative' }}>
-            <Select
-              className="custom-select"
-              placeholder={selectedLeader ? selectedLeader.label : '리더 선택'}
-              onChange={handleLeaderSelect}
-              value={selectedLeader?.value}
-              dropdownStyle={{ minWidth: '200px', maxHeight: '300px' }}
-              dropdownRender={(menu) => (
-                <div>
-                  <Input
-                    placeholder="리더 검색"
-                    style={{ marginBottom: '5px' }}
-                    value={searchValue}
-                    onChange={(e) => setSearchValue(e.target.value)}
-                  />
-                  {menu}
-                </div>
-              )}
-              notFoundContent={
-                leaderOptions.length === 0 ? '구성원이 없습니다. 구성원을 추가해주세요.' : '검색 결과가 없습니다.'
-              }
-              filterOption={false}
-              getPopupContainer={(trigger) => trigger.parentNode}
-            >
-              {filteredOptions.map((leader) => (
-                <Option key={leader.value} value={leader.value} label={leader.label}>
-                  {renderOption(leader)}
-                </Option>
-              ))}
-            </Select>
-          </div>
-        )}
-        <Dropdown overlay={memberMenu} placement="bottomLeft" trigger={['click']}>
-          <p className="team-members" onClick={handleMembersClick}>
-            멤버 <span>{teamMembers.length}명</span>
-          </p>
-        </Dropdown>
+          </Dropdown>
+        </div>
+        <div className="team-actions" onClick={handleInnerClick}>
+          <Dropdown overlay={teamMenu} trigger={['click']} placement="bottomRight">
+            <Button type="default" size="large" ghost>
+              <img src={`${process.env.PUBLIC_URL}/assets/images/icon/DotsThreeVertical.svg`} alt="Dots Icon" />
+            </Button>
+          </Dropdown>
+        </div>
       </div>
-      <div className="team-actions">
-        <Dropdown overlay={teamMenu} trigger={['click']} placement="bottomRight">
-          <Button type="default" size="large" ghost>
-            <img src={`${process.env.PUBLIC_URL}/assets/images/icon/DotsThreeVertical.svg`} alt="Dots Icon" />
-          </Button>
-        </Dropdown>
-      </div>
-    </div>
+
+      <Drawer title="팀 일괄 추가" placement="right" onClose={onClose} visible={visible}>
+        {/* 여기에 팝업 내용을 추가하세요 */}
+      </Drawer>
+    </>
   );
 };
 

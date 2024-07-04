@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import AdminLayout from '@layout/Layout';
 import { Tabs, Button, Input, message, Tooltip } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import TeamItem from './comp/TeamItem';
+import AdminLayout from '@layout/Layout';
 
 const { Search } = Input;
 
@@ -107,159 +107,160 @@ const Ant01 = () => {
   return (
     <AdminLayout breadcrumbItems={breadcrumbItems} pageClass={pageName}>
       <div className="tab-panel">
-        <Tabs defaultActiveKey="1" onChange={() => {}} size="default" tabPosition="top" type="line">
-          <Tabs.TabPane
-            tab={
-              <>
-                운영 중인 팀 <span className="team-count">{teamNames.length}</span>
-              </>
-            }
-            key="1"
-          >
-            <div className="task-manager">
-              {/* 헤더 섹션 */}
-              <header className="task-header flex jcb aic">
-                <div className="left-actions flex aic gap8">
-                  <Button size="large" type="primary">
-                    <i className="icon-download"></i> 일괄 추가
-                  </Button>
-                  <Button size="large" type="primary" onClick={addTeamInput}>
-                    <i className="icon-plus"></i> 팀 추가
-                  </Button>
-                  <Button size="large" type="default" onClick={() => setIsEditMode(!isEditMode)}>
-                    <i className="icon-sorter"></i> {isEditMode ? '편집 완료' : '순서 편집'}
-                  </Button>
-                </div>
-
-                <div className="right-actions flex aic gap16">
-                  {/* <div className="view-toggles flex aic gap5">
-                    <button className="btn btn-view active">리스트 뷰</button>
-                    <button className="btn btn-view">조직도 뷰</button>
-                  </div> */}
-                  <Search
-                    placeholder="팀명"
-                    allowClear
-                    prefix={<i className="icon-search" style={{ marginRight: 8 }} />}
-                    enterButton={
-                      <Button type="primary" size="large">
-                        검색
+        <Tabs
+          defaultActiveKey="1"
+          onChange={() => {}}
+          size="default"
+          tabPosition="top"
+          type="line"
+          items={[
+            {
+              label: (
+                <>
+                  운영 중인 팀 <span className="team-count">{teamNames.length}</span>
+                </>
+              ),
+              key: '1',
+              children: (
+                <div className="task-manager">
+                  <header className="task-header flex jcb aic">
+                    <div className="left-actions flex aic gap8">
+                      <Button size="large" type="primary">
+                        <i className="icon-download"></i> 일괄 추가
                       </Button>
-                    }
-                    size="large"
-                  />
-                </div>
-              </header>
-
-              {/* 메인 콘텐츠 */}
-              <main className="task-content">
-                {/* 팀이 없을 때 표시할 내용 */}
-                {teamInputs.length === 0 && teamNames.length === 0 && (
-                  <div className="task-input-container">
-                    <Button size="large" type="text" className="task-btn" onClick={addTeamInput}>
-                      <i className="icon-plus-circle"></i> 팀 추가
-                    </Button>
-                  </div>
-                )}
-
-                <div className="task-list empty">
-                  {teamInputs.length === 0 && teamNames.length === 0 ? (
-                    // 팀이 없을 때 표시할 메시지
-                    <div className="empty-state">
-                      <i className="icon-empty"></i>
-                      <p className="empty-message">아직 팀이 없습니다.</p>
+                      <Button size="large" type="primary" onClick={addTeamInput}>
+                        <i className="icon-plus"></i> 팀 추가
+                      </Button>
+                      <Button size="large" type="default" onClick={() => setIsEditMode(!isEditMode)}>
+                        <i className="icon-sorter"></i> {isEditMode ? '편집 완료' : '순서 편집'}
+                      </Button>
                     </div>
-                  ) : (
-                    <>
-                      <div className="all-num">
-                        전체 <span>{teamNames.length}</span>
+                    <div className="right-actions flex aic gap16">
+                      <Search
+                        placeholder="팀명"
+                        allowClear
+                        prefix={<i className="icon-search" style={{ marginRight: 8 }} />}
+                        enterButton={
+                          <Button type="primary" size="large">
+                            검색
+                          </Button>
+                        }
+                        size="large"
+                      />
+                    </div>
+                  </header>
+                  <main className="task-content">
+                    {teamInputs.length === 0 && teamNames.length === 0 && (
+                      <div className="task-input-container">
+                        <Button size="large" type="text" className="task-btn" onClick={addTeamInput}>
+                          <i className="icon-plus-circle"></i> 팀 추가
+                        </Button>
                       </div>
-                      {/* 드래그 앤 드롭 컨텍스트 */}
-                      <DragDropContext onDragEnd={onDragEnd}>
-                        <Droppable droppableId="teamName">
-                          {(provided) => (
-                            <div {...provided.droppableProps} ref={provided.innerRef} className="teamlist">
-                              {teamNames.map((teamName, index) => (
-                                <Draggable
-                                  key={teamName}
-                                  draggableId={teamName}
-                                  index={index}
-                                  isDragDisabled={!isEditMode}
-                                >
-                                  {(provided) => (
-                                    <div
-                                      ref={provided.innerRef}
-                                      {...provided.draggableProps}
-                                      {...provided.dragHandleProps}
-                                    >
-                                      <TeamItem teamName={teamName} index={index} isEditMode={isEditMode} />
-                                    </div>
-                                  )}
-                                </Draggable>
-                              ))}
-                              {provided.placeholder}
-                            </div>
-                          )}
-                        </Droppable>
-                      </DragDropContext>
-                      {/* // teamInputs 배열을 매핑하여 각 팀에 대한 입력 필드와 해당 에러 툴팁을 렌더링합니다. */}
-                      {teamInputs.map((input, index) => (
-                        <div key={index} className="team-input-wrap">
-                          <div key={index} className="team-input flex aic jcb gap8">
-                            <div className="left-item flex  aic gap8">
-                              {inputErrors[index] && (
-                                <Tooltip
-                                  title={inputErrors[index]} // 툴팁 텍스트로 에러 메시지를 표시합니다.
-                                  visible={inputErrors[index] ? true : false} // 에러 메시지가 있을 경우에만 툴팁을 표시합니다.
-                                  placement="top" // 툴팁을 입력 필드 위에 나타나게 설정합니다.
-                                  color="red" // 에러에 대한 툴팁 배경색을 빨간색으로 설정합니다.
-                                  overlayClassName="custom-tooltip-position"
-                                >
-                                  {/* // 에러를 나타내는 아이콘, 클릭 시 툴팁이 표시됩니다. */}
-                                  <i className="icon-alert-circle" style={{ color: 'red' }}></i>
-                                </Tooltip>
-                              )}
-                              <Input
-                                allowClear
-                                value={input}
-                                onChange={(e) => handleInputChange(index, e)} // 입력 변경을 처리하여 상태에서 팀 이름을 업데이트합니다.
-                                placeholder="팀명을 입력하세요" // 팀 이름 입력을 위한 플레이스홀더
-                                maxLength={50} // 팀 이름의 최대 길이
-                                size="large"
-                                status={inputErrors[index] ? 'error' : ''} // 에러 메시지가 있으면 입력 상태를 'error'로 설정합니다.
-                              />
-                              <Button
-                                type="primary"
-                                size="large"
-                                onClick={() => {
-                                  addTeam(index); // '추가' 버튼 클릭 시 팀을 추가하는 함수를 실행합니다.
-                                }}
-                              >
-                                추가
-                              </Button>
-                            </div>
-                            <div className="right-item">
-                              <Button size="large" onClick={() => removeTeamInput(index)} icon={<CloseOutlined />} />
-                            </div>
-                          </div>
+                    )}
+                    <div className="task-list empty">
+                      {teamInputs.length === 0 && teamNames.length === 0 ? (
+                        <div className="empty-state">
+                          <i className="icon-empty"></i>
+                          <p className="empty-message">아직 팀이 없습니다.</p>
                         </div>
-                      ))}
-                    </>
-                  )}
+                      ) : (
+                        <>
+                          <div className="all-num">
+                            전체 <span>{teamNames.length}</span>
+                          </div>
+                          <DragDropContext onDragEnd={onDragEnd}>
+                            <Droppable droppableId="teamName">
+                              {(provided) => (
+                                <div {...provided.droppableProps} ref={provided.innerRef} className="teamlist">
+                                  {teamNames.map((teamName, index) => (
+                                    <Draggable
+                                      key={teamName}
+                                      draggableId={teamName}
+                                      index={index}
+                                      isDragDisabled={!isEditMode}
+                                    >
+                                      {(provided) => (
+                                        <div
+                                          ref={provided.innerRef}
+                                          {...provided.draggableProps}
+                                          {...provided.dragHandleProps}
+                                        >
+                                          <TeamItem teamName={teamName} index={index} isEditMode={isEditMode} />
+                                        </div>
+                                      )}
+                                    </Draggable>
+                                  ))}
+                                  {provided.placeholder}
+                                </div>
+                              )}
+                            </Droppable>
+                          </DragDropContext>
+                          {teamInputs.map((input, index) => (
+                            <div key={index} className="team-input-wrap">
+                              <div key={index} className="team-input flex aic jcb gap8">
+                                <div className="left-item flex  aic gap8">
+                                  {inputErrors[index] && (
+                                    <Tooltip
+                                      title={inputErrors[index]}
+                                      visible={inputErrors[index] ? true : false}
+                                      placement="top"
+                                      color="red"
+                                      overlayClassName="custom-tooltip-position"
+                                    >
+                                      <i className="icon-alert-circle" style={{ color: 'red' }}></i>
+                                    </Tooltip>
+                                  )}
+                                  <Input
+                                    allowClear
+                                    value={input}
+                                    onChange={(e) => handleInputChange(index, e)}
+                                    placeholder="팀명을 입력하세요"
+                                    maxLength={50}
+                                    size="large"
+                                    status={inputErrors[index] ? 'error' : ''}
+                                  />
+                                  <Button
+                                    type="primary"
+                                    size="large"
+                                    onClick={() => {
+                                      addTeam(index);
+                                    }}
+                                  >
+                                    추가
+                                  </Button>
+                                </div>
+                                <div className="right-item">
+                                  <Button
+                                    size="large"
+                                    onClick={() => removeTeamInput(index)}
+                                    icon={<CloseOutlined />}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </>
+                      )}
+                    </div>
+                  </main>
                 </div>
-              </main>
-            </div>
-          </Tabs.TabPane>
-          <Tabs.TabPane
-            tab={
-              <>
-                종료된 팀 <span className="team-count">0</span>
-              </>
-            }
-            key="2"
-          >
-            종료된 팀 <span>0</span>
-          </Tabs.TabPane>
-        </Tabs>
+              ),
+            },
+            {
+              label: (
+                <>
+                  종료된 팀 <span className="team-count">0</span>
+                </>
+              ),
+              key: '2',
+              children: (
+                <div>
+                  종료된 팀 <span>0</span>
+                </div>
+              ),
+            },
+          ]}
+        />
       </div>
     </AdminLayout>
   );

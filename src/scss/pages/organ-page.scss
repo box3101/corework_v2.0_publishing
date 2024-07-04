@@ -87,6 +87,9 @@
           flex: none;
           justify-content: space-between;
           align-items: center;
+          .profile-wrap {
+            justify-content: start;
+          }
           .icon {
             display: flex;
             align-items: center;
@@ -96,7 +99,7 @@
             background: $primary-color;
             border-radius: 9999px;
           }
-          p {
+          .team-leader-assignment {
             display: inline-flex;
             align-items: center;
             gap: px-to-rem(8px);
