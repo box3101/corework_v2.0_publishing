@@ -10,7 +10,7 @@ const TeamItem = ({ teamName, index, isEditMode }) => {
   const [editedTeamName, setEditedTeamName] = useState(teamName);
   const [tempTeamName, setTempTeamName] = useState(teamName);
   const [searchValue, setSearchValue] = useState('');
-  //
+  // eslint-disable-next-line no-unused-vars
   const [_showMembers, setShowMembers] = useState(false); // State for member list visibility
   const [visible, setVisible] = useState(false);
 
