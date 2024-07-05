@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Select, Dropdown, Menu, Input, Drawer } from 'antd';
-
+import { DownOutlined, UpOutlined } from '@ant-design/icons';
 const { Option } = Select;
 
 const TeamItem = ({ teamName, index, isEditMode }) => {
@@ -13,6 +13,7 @@ const TeamItem = ({ teamName, index, isEditMode }) => {
   // eslint-disable-next-line no-unused-vars
   const [_showMembers, setShowMembers] = useState(false); // State for member list visibility
   const [visible, setVisible] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const leaderOptions = [
     { value: 'kang', label: '강민식', department: '전략기획팀 / DX리드' },
@@ -73,12 +74,17 @@ const TeamItem = ({ teamName, index, isEditMode }) => {
     setIsEditingName(false);
   };
 
-  const handleMembersClick = () => {
-    setShowMembers((prev) => !prev); // Toggle member list visibility
+  const handleMembersClick = (e) => {
+    e.preventDefault();
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
   const handleInnerClick = (event) => {
     event.stopPropagation(); // 이벤트 버블링을 막습니다.
+  };
+
+  const handleVisibleChange = (visible) => {
+    setIsDropdownOpen(visible);
   };
 
   const renderOption = (leader) => (
@@ -200,9 +206,15 @@ const TeamItem = ({ teamName, index, isEditMode }) => {
               </Select>
             </div>
           )}
-          <Dropdown overlay={memberMenu} placement="bottomLeft" trigger={['click']}>
+          <Dropdown
+            overlay={memberMenu}
+            placement="bottomLeft"
+            trigger={['click']}
+            onVisibleChange={handleVisibleChange}
+          >
             <p className="team-members" onClick={handleMembersClick}>
               멤버 <span>{teamMembers.length}명</span>
+              {isDropdownOpen ? <UpOutlined /> : <DownOutlined />}
             </p>
           </Dropdown>
         </div>
