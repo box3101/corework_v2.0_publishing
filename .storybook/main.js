@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   stories: ['../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
   addons: [
@@ -14,5 +16,15 @@ module.exports = {
   },
   docs: {
     autodocs: true,
+  },
+  webpackFinal: async (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(__dirname, '../src'),
+      '@font': path.resolve(__dirname, '../src/fonts'),
+      '@images': path.resolve(__dirname, '../public/assets/images'),
+      '@layout': path.resolve(__dirname, '../src/pages/antDesign/comp/layout'),
+    };
+    return config;
   },
 };
