@@ -1,7 +1,7 @@
 import React from 'react';
 import { Drawer } from 'antd';
 
-const ResponsiveDrawer = ({ placement = 'right', size = 'small', visible, onClose, title, children, ...props }) => {
+const CustomModal = ({ placement = 'right', size = 'small', visible, onClose, title, children, ...props }) => {
   let width = '30%';
   let height = '100%';
 
@@ -31,4 +31,4 @@ const ResponsiveDrawer = ({ placement = 'right', size = 'small', visible, onClos
   );
 };
 
-export default ResponsiveDrawer;
+export default CustomModal;

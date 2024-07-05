@@ -3,7 +3,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Tabs, Button, Input, message, Tooltip } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import TeamItem from './comp/TeamItem';
-import ResponsiveDrawer from '../comp/ResponsiveDrawer';
+import CustomModal from '../comp/CustomModal';
 import AdminLayout from '@layout/Layout';
 
 const { Search } = Input;
@@ -148,7 +148,7 @@ const Ant01 = () => {
                     </div>
                     <div className="right-actions flex aic gap16">
                       <Search
-                        placeholder="팀명"
+                        placeholder="팀명을 입력하세요."
                         allowClear
                         prefix={<i className="icon-search" style={{ marginRight: 8 }} />}
                         enterButton={
@@ -226,7 +226,7 @@ const Ant01 = () => {
                                     allowClear
                                     value={input}
                                     onChange={(e) => handleInputChange(index, e)}
-                                    placeholder="팀명을 입력하세요"
+                                    placeholder="팀명을 입력하세요."
                                     maxLength={50}
                                     size="large"
                                     status={inputErrors[index] ? 'error' : ''}
@@ -255,9 +255,55 @@ const Ant01 = () => {
                       )}
                     </div>
                   </main>
-                  <ResponsiveDrawer title="일괄추가" placement="right" size="large" onClose={onClose} visible={visible}>
-                    <p>일괄 추가</p>
-                  </ResponsiveDrawer>
+                  <CustomModal
+                    title="구성원 일괄 추가/수정"
+                    placement="right"
+                    size="large"
+                    onClose={onClose}
+                    visible={visible}
+                  >
+                    <div className="member-upload">
+                      <h2>
+                        양식에 맞게 작성한 엑셀 파일을 업로드해 주세요. 데이터가 올바른지 확인한 후, 문제가 없다면 여러
+                        명의 구성원을 한 번에 추가하거나 수정할 수 있어요.
+                      </h2>
+                      <div className="header-wrp">
+                        <h1 className="title">
+                          <i className="icon-circle-outlined"></i>
+                          구성원 정보를 양식에 맞추어 입력해 주세요.
+                          <span>양식을 다운로드 해주세요.</span>
+                        </h1>
+                      </div>
+                      <div className="content">
+                        <p>양식에 맞춰 작성한 엑셀 파일을 업로드 해주세요.</p>
+                        <div className="wrap">
+                          <div className="upload-area" id="upload-area">
+                            <i className="icon-upload"></i>
+                            <p>여기 드래그 하기</p>
+                            <span>또는</span>
+                            <Button type="primary" size="large" className="mw120">
+                              엑셀 업로드
+                            </Button>
+                          </div>
+                          <div className="instructions">
+                            <p>
+                              구성원 추가 시, 구성원에게 바로 안내가 가지는 않습니다. 구성원 등록 후 [초대 메일
+                              보내기]를 하시면, 구성원에게 메일이 발송됩니다.
+                            </p>
+                            <p>
+                              구성원 수 한도 내에서 추가할 수 있습니다. 구성원이 초과하면, 소유자를 통해 구성원 수를
+                              늘린 후 추가해주세요.
+                            </p>
+                            <p>양식에 기존 구성원에 대한 변경 정보가 있을 경우, 기존 정보를 덮어씁니다.</p>
+                            <p>
+                              현재 구성원 정보를 일괄 수정하려면 구성원 정보 엑셀을 다운로드하여, 양식에 맞게 추가 또는
+                              수정된 정보를 입력하세요.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CustomModal>
                 </div>
               ),
             },

@@ -127,7 +127,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 
@@ -218,6 +218,6 @@ h5 {
 }
 @include max-width(mo) {
   html {
-    font-size: 11px;
+    font-size: 13px;
   }
 }

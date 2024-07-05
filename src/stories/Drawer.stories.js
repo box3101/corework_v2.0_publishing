@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Button } from 'antd';
-import ResponsiveDrawer from '../pages/antDesign/comp/ResponsiveDrawer';
+import CustomModal from '../pages/antDesign/comp/CustomModal';
 
 export default {
-  title: 'Components/ResponsiveDrawer',
-  component: ResponsiveDrawer,
+  title: 'Components/CustomModal',
+  component: CustomModal,
   argTypes: {
     placement: {
       control: { type: 'select' },
@@ -31,18 +31,11 @@ const Template = ({ placement, size, ...args }) => {
   return (
     <>
       <Button onClick={showDrawer}>Open Drawer</Button>
-      <ResponsiveDrawer
-        title="Drawer Title"
-        placement={placement}
-        size={size}
-        onClose={onClose}
-        visible={visible}
-        {...args}
-      >
+      <CustomModal title="Drawer Title" placement={placement} size={size} onClose={onClose} visible={visible} {...args}>
         <p>Some contents...</p>
         <p>Some contents...</p>
         <p>Some contents...</p>
-      </ResponsiveDrawer>
+      </CustomModal>
     </>
   );
 };

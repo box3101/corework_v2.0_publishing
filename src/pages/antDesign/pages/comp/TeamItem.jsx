@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import ResponsiveDrawer from 'pages/antDesign/comp/ResponsiveDrawer';
+import CustomModal from 'pages/antDesign/comp/CustomModal';
 import CustomDropdown from 'pages/antDesign/comp/CustomDropdown';
 
 import { Button, Select, Input } from 'antd';
@@ -222,9 +222,9 @@ const TeamItem = ({ teamName, index, isEditMode }) => {
           </CustomDropdown>
         </div>
       </div>
-      <ResponsiveDrawer title={teamName} placement="right" size="large" onClose={onClose} visible={visible}>
+      <CustomModal title={teamName} placement="right" size="large" onClose={onClose} visible={visible}>
         <p>This is my custom drawer content.</p>
-      </ResponsiveDrawer>
+      </CustomModal>
     </>
   );
 };
