@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
 import ResponsiveDrawer from 'pages/antDesign/comp/ResponsiveDrawer';
+import CustomDropdown from 'pages/antDesign/comp/CustomDropdown';
 
-import { Button, Select, Dropdown, Menu, Input } from 'antd';
-import { DownOutlined, UpOutlined } from '@ant-design/icons';
+import { Button, Select, Input } from 'antd';
 const { Option } = Select;
 
 const TeamItem = ({ teamName, index, isEditMode }) => {
@@ -16,7 +16,6 @@ const TeamItem = ({ teamName, index, isEditMode }) => {
   // eslint-disable-next-line no-unused-vars
   const [_showMembers, setShowMembers] = useState(false); // State for member list visibility
   const [visible, setVisible] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const leaderOptions = [
     { value: 'kang', label: '강민식', department: '전략기획팀 / DX리드' },
@@ -77,18 +76,30 @@ const TeamItem = ({ teamName, index, isEditMode }) => {
     setIsEditingName(false);
   };
 
-  const handleMembersClick = (e) => {
-    e.preventDefault();
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
   const handleInnerClick = (event) => {
     event.stopPropagation(); // 이벤트 버블링을 막습니다.
   };
 
-  const handleVisibleChange = (visible) => {
-    setIsDropdownOpen(visible);
+  const showDrawer = () => {
+    setVisible(true);
   };
+
+  const onClose = () => {
+    setVisible(false);
+  };
+
+  const teamMenuItems = [
+    {
+      key: '1',
+      label: '팀 정보 설정',
+      onClick: showDrawer,
+    },
+    {
+      key: '2',
+      label: '팀 종료 전환',
+      onClick: () => console.log('2'),
+    },
+  ];
 
   const renderOption = (leader) => (
     <div className="profile-wrap">
@@ -100,32 +111,10 @@ const TeamItem = ({ teamName, index, isEditMode }) => {
     </div>
   );
 
-  const showDrawer = () => {
-    setVisible(true);
-  };
-
-  const onClose = () => {
-    setVisible(false);
-  };
-
-  const teamMenu = (
-    <Menu>
-      <Menu.Item key="1" onClick={showDrawer}>
-        팀 정보 설정
-      </Menu.Item>
-      <Menu.Item key="2" onClick={() => console.log('2')}>
-        팀 종료 전환
-      </Menu.Item>
-    </Menu>
-  );
-
-  const memberMenu = (
-    <Menu className="width-lg h280 click-none">
-      {teamMembers.map((member) => (
-        <Menu.Item key={member.value}>{renderOption(member)}</Menu.Item>
-      ))}
-    </Menu>
-  );
+  const memberMenuItems = teamMembers.map((member) => ({
+    key: member.value,
+    label: renderOption(member),
+  }));
 
   return (
     <>
@@ -209,24 +198,28 @@ const TeamItem = ({ teamName, index, isEditMode }) => {
               </Select>
             </div>
           )}
-          <Dropdown
-            overlay={memberMenu}
-            placement="bottomLeft"
-            trigger={['click']}
-            onVisibleChange={handleVisibleChange}
-          >
-            <p className="team-members" onClick={handleMembersClick}>
-              멤버 <span>{teamMembers.length}명</span>
-              {isDropdownOpen ? <UpOutlined /> : <DownOutlined />}
-            </p>
-          </Dropdown>
+          <CustomDropdown
+            items={memberMenuItems}
+            buttonText="팀원"
+            size="large"
+            className="custom-dropdown"
+            buttonClassName="custom-button"
+          />
         </div>
         <div className="team-actions" onClick={handleInnerClick}>
-          <Dropdown overlay={teamMenu} trigger={['click']} placement="bottomRight">
+          <CustomDropdown
+            items={teamMenuItems}
+            placement="bottomRight"
+            triggerType={(['click'], ['hover'])}
+            size="small"
+            onOpenChange={(visible) => {
+              console.log('Dropdown visibility changed:', visible);
+            }}
+          >
             <Button type="default" size="large" ghost>
               <img src={`${process.env.PUBLIC_URL}/assets/images/icon/DotsThreeVertical.svg`} alt="Dots Icon" />
             </Button>
-          </Dropdown>
+          </CustomDropdown>
         </div>
       </div>
       <ResponsiveDrawer title={teamName} placement="right" size="large" onClose={onClose} visible={visible}>

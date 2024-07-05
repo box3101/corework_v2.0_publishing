@@ -3,6 +3,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Tabs, Button, Input, message, Tooltip } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import TeamItem from './comp/TeamItem';
+import ResponsiveDrawer from '../comp/ResponsiveDrawer';
 import AdminLayout from '@layout/Layout';
 
 const { Search } = Input;
@@ -20,6 +21,7 @@ const Ant01 = () => {
   const [teamNames, setTeamNames] = useState([]); // 추가된 팀 이름 목록
   const [inputErrors, setInputErrors] = useState([]); // 입력 오류 메시지
   const [isEditMode, setIsEditMode] = useState(false); // 순서 편집 모드 상태
+  const [visible, setVisible] = useState(false); // 일괄 추가 모달 상태
 
   // 팀 이름 유효성 검사 함수
   const isValidTeamName = (name) => {
@@ -104,6 +106,14 @@ const Ant01 = () => {
     setTeamNames(items);
   };
 
+  const showDrawer = () => {
+    setVisible(true);
+  };
+
+  const onClose = () => {
+    setVisible(false);
+  };
+
   return (
     <AdminLayout breadcrumbItems={breadcrumbItems} pageClass={pageName}>
       <div className="tab-panel">
@@ -123,9 +133,10 @@ const Ant01 = () => {
               key: '1',
               children: (
                 <div className="task-manager">
+                  {/* // 헤더 */}
                   <header className="task-header flex jcb aic">
                     <div className="left-actions flex aic gap8">
-                      <Button size="large" type="primary">
+                      <Button size="large" type="primary" onClick={showDrawer}>
                         <i className="icon-download"></i> 일괄 추가
                       </Button>
                       <Button size="large" type="primary" onClick={addTeamInput}>
@@ -149,6 +160,7 @@ const Ant01 = () => {
                       />
                     </div>
                   </header>
+                  {/* // 메인 컨텐츠 */}
                   <main className="task-content">
                     {teamInputs.length === 0 && teamNames.length === 0 && (
                       <div className="task-input-container">
@@ -243,6 +255,9 @@ const Ant01 = () => {
                       )}
                     </div>
                   </main>
+                  <ResponsiveDrawer title="일괄추가" placement="right" size="large" onClose={onClose} visible={visible}>
+                    <p>일괄 추가</p>
+                  </ResponsiveDrawer>
                 </div>
               ),
             },
