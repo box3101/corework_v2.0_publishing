@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { Button, Select, Dropdown, Menu, Input, Drawer } from 'antd';
+
+import ResponsiveDrawer from 'pages/antDesign/comp/ResponsiveDrawer';
+
+import { Button, Select, Dropdown, Menu, Input } from 'antd';
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 const { Option } = Select;
 
@@ -226,10 +229,9 @@ const TeamItem = ({ teamName, index, isEditMode }) => {
           </Dropdown>
         </div>
       </div>
-
-      <Drawer title={teamName} placement="right" onClose={onClose} visible={visible}>
-        {/* 여기에 팝업 내용을 추가하세요 */}
-      </Drawer>
+      <ResponsiveDrawer title={teamName} placement="right" size="large" onClose={onClose} visible={visible}>
+        <p>This is my custom drawer content.</p>
+      </ResponsiveDrawer>
     </>
   );
 };
